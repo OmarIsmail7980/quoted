@@ -2,7 +2,7 @@
 
 import Loading from "@/components/Loading";
 import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebaseConfig/firebaseConfig";
 import { useAuth } from "@/context/UserContext";
 
@@ -21,8 +21,8 @@ const page = () => {
     event.preventDefault();
     setIsPosting(true);
     try {
-      const docRef = doc(db, "quotes", `${form.name}-${user.displayName}`);
-      await setDoc(docRef, {
+      const collectionRef = collection(db, "quotes");
+      await addDoc(collectionRef, {
         uid: user.uid,
         quote: form.quote,
         author: form.name,
