@@ -54,6 +54,11 @@ const ProfilePage = () => {
         const storageRef = ref(storage, `profileImages/${user.uid}`);
         await uploadBytes(storageRef, uploadedImage);
         newProfileImageURL = await getDownloadURL(storageRef);
+
+        setUserProfile((value) => {
+          return { ...value, photoURL: newProfileImageURL };
+        });
+        
       }
 
       const docRef = doc(db, "users", user.uid);
