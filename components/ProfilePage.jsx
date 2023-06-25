@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/UserContext";
-import { db, storage } from "@/firebaseConfig/firebaseConfig";
+import { db, storage } from "@/firebase/firebaseConfig";
 import Image from "next/image";
 import { getDoc, setDoc, doc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -58,15 +58,15 @@ const ProfilePage = () => {
         setUserProfile((value) => {
           return { ...value, photoURL: newProfileImageURL };
         });
-        
       }
 
       const docRef = doc(db, "users", user.uid);
       await setDoc(docRef, {
-        displayName: user.displayName,
-        email: user.email,
+        displayName: userProfile.displayName,
+        email: userProfile.email,
         photoURL: newProfileImageURL,
       });
+
       alert("User document created successfully");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -102,14 +102,24 @@ const ProfilePage = () => {
               type="text"
               placeholder="Full name"
               value={userProfile.displayName || ""}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) =>
+                setUserProfile((profile) => ({
+                  ...profile,
+                  displayName: e.target.value,
+                }))
+              }
             />
 
             <input
               type="text"
               placeholder="Email"
               value={userProfile.email || ""}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) =>
+                setUserProfile((profile) => ({
+                  ...profile,
+                  email: e.target.value,
+                }))
+              }
             />
 
             <input

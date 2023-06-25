@@ -3,7 +3,7 @@
 import Loading from "@/components/Loading";
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/firebaseConfig/firebaseConfig";
+import { db } from "@/firebase/firebaseConfig";
 import { useAuth } from "@/context/UserContext";
 
 const page = () => {

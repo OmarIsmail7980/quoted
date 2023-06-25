@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../firebaseConfig/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
 
 const UserContext = createContext(null);
 export const useAuth = () => {
