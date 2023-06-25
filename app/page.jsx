@@ -1,16 +1,30 @@
 "use client";
 import { useState, useEffect } from "react";
 import { db } from "@/firebase/firebaseConfig";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
 import Quote from "@/components/Quote";
+import Loading from "@/components/Loading";
+import {useAuth} from "../context/UserContext";
+
 export default function Home() {
+  const {user} = useAuth();
   const [quotes, setQuotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const quotesRef = collection(db, "quotes");
-        const querySnapshot = await getDocs(quotesRef);
+        const querySnapshot = await getDocs(
+          query(quotesRef, orderBy("createdAt", "desc"))
+        );
 
         console.log({ querySnapshot });
         querySnapshot.forEach(async (document) => {
@@ -36,17 +50,30 @@ export default function Home() {
         });
       } catch (error) {
         alert(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, []);
 
   console.log({ quotes });
+  console.log({ user });
   return (
-    <section className="px-4">
-      {quotes.map((document) => {
-        return <Quote data={document} />;
-      })}
+    <section className="px-4 flex flex-col mb-10">
+      <h1 className="text-center text-[28px] font-medium mb-5">
+        Welcome to Quoted, a platform where you can share and discover inspiring
+        quotes!
+      </h1>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {quotes.map((document) => {
+            return <Quote data={document} />;
+          })}
+        </>
+      )}
     </section>
   );
 }

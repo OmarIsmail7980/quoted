@@ -6,3 +6,4 @@
 .black_btn {
   @apply rounded-full border border-black bg-black py-1.5 px-5 text-white transition-all  text-center text-sm flex items-center justify-center;
 }
+

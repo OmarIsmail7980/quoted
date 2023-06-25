@@ -8,7 +8,7 @@ import { useAuth } from "../context/UserContext";
 const Navbar = () => {
   const { googleSignIn, googleSignOut, user } = useAuth();
   const [toggleDropDown, setToggleDropDown] = useState(false);
-
+  console.log({user})
   const handleSignIn = async () => {
     try {
       await googleSignIn();
@@ -36,21 +36,23 @@ const Navbar = () => {
       <div className="sm:hidden flex relative">
         {user?.displayName ? (
           <div className="flex">
-            <Image
-              src={`${user.photoURL}`}
-              alt="user"
-              width={37}
-              height={37}
-              className="object-contain rounded-full"
-              onClick={() => {
-                setToggleDropDown((value) => !value);
-              }}
-            />
+            <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+              <Image
+                src={`${user.photoURL}`}
+                alt="user"
+                width={37}
+                height={37}
+                className="object-cover w-full h-full"
+                onClick={() => {
+                  setToggleDropDown((value) => !value);
+                }}
+              />
+            </div>
 
             {toggleDropDown && (
               <div
                 className="absolute right-0 top-full mt-3 w-full p-5 rounded-lg bg-white min-w-[210px] 
-            flex flex-col gap-2 justify-end items-end;"
+            flex flex-col gap-2 justify-start items-end border border-gray-300"
               >
                 <Link
                   href="/profile"

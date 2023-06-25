@@ -20,16 +20,25 @@ export const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      const userRef = doc(db, "users", currentUser.uid);
-      const userSnap = await getDoc(userRef);
+      let userSnap;
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        userSnap = await getDoc(userRef);
+      }
 
-      if (userSnap.exists()) {
+      if (currentUser && userSnap.exists()) {
         console.log(userSnap._document.data.value.mapValue.fields.photoURL);
         console.log(userSnap._document.data.value.mapValue.fields);
         setUser({
           ...currentUser,
+
           photoURL:
             userSnap._document.data.value.mapValue.fields.photoURL.stringValue,
+          displayName:
+            userSnap._document.data.value.mapValue.fields.displayName
+              .stringValue,
+          email:
+            userSnap._document.data.value.mapValue.fields.email.stringValue,
         });
       } else {
         setUser(currentUser);

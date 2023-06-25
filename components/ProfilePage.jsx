@@ -13,6 +13,7 @@ const ProfilePage = () => {
   const [userProfile, setUserProfile] = useState({});
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -45,6 +46,7 @@ const ProfilePage = () => {
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
 
     try {
       // Keep the existing profile image URL if no new image is selected
@@ -70,67 +72,101 @@ const ProfilePage = () => {
       alert("User document created successfully");
     } catch (error) {
       console.error("Error updating profile:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
+
+  const changeMade =
+    userProfile.displayName !== user.displayName ||
+    userProfile.photoURL !== user.photoURL ||
+    userProfile.email !== user.email;
+
+  console.log({ changeMade });
 
   console.log({ userProfile });
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center">
+        <section className="flex justify-center items-center">
           <Loading />
-        </div>
+        </section>
       ) : (
-        <div>
-          <h1>Profile Page</h1>
-
+        <section className="flex flex-col px-4">
           {userProfile.photoURL && (
-            <Image
-              src={userProfile.photoURL}
-              alt="user"
-              width={37}
-              height={37}
-              className="object-contain rounded-full"
-              onClick={() => {
-                setToggleDropDown((value) => !value);
-              }}
-            />
+            <div className="w-full flex justify-center">
+              <div className="w-[80px] h-[80px] rounded-full overflow-hidden mb-10">
+                <Image
+                  src={userProfile.photoURL}
+                  alt="user"
+                  width={37}
+                  height={37}
+                  className="object-contain w-full h-full"
+                />
+              </div>
+            </div>
           )}
 
           <form onSubmit={handleSaveProfile}>
-            <input
-              type="text"
-              placeholder="Full name"
-              value={userProfile.displayName || ""}
-              onChange={(e) =>
-                setUserProfile((profile) => ({
-                  ...profile,
-                  displayName: e.target.value,
-                }))
-              }
-            />
+            <div className="flex flex-col gap-2 mb-3">
+              <label>Full Name</label>
+              <input
+                type="text"
+                placeholder="Full name"
+                value={userProfile.displayName || ""}
+                className="bg-gray-50 border 
+        border-gray-300 text-gray-900 
+        text-sm rounded-lg focus:ring-primary 
+        focus:border-primary outline-none block 
+        w-full p-3"
+                onChange={(e) =>
+                  setUserProfile((profile) => ({
+                    ...profile,
+                    displayName: e.target.value,
+                  }))
+                }
+              />
+            </div>
 
-            <input
-              type="text"
-              placeholder="Email"
-              value={userProfile.email || ""}
-              onChange={(e) =>
-                setUserProfile((profile) => ({
-                  ...profile,
-                  email: e.target.value,
-                }))
-              }
-            />
+            <div className="flex flex-col gap-2 mb-3">
+              <label>Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                className="bg-gray-50 border 
+        border-gray-300 text-gray-900 
+        text-sm rounded-lg focus:ring-primary 
+        focus:border-primary outline-none block 
+        w-full p-3"
+                value={userProfile.email || ""}
+                onChange={(e) =>
+                  setUserProfile((profile) => ({
+                    ...profile,
+                    email: e.target.value,
+                  }))
+                }
+              />
+            </div>
 
             <input
               type="file"
               accept="image/*"
+              className="mb-3"
               onChange={handleProfileImageChange}
             />
 
-            <button type="submit">Save</button>
+            {changeMade && (
+              <button
+                className="text-white bg-black font-medium 
+            rounded-md text-sm w-full sm:w-auto px-5 py-2.5 
+            text-center mt-5"
+                type="submit"
+              >
+                {isSaving ? <Loading /> : <>Save</>}
+              </button>
+            )}
           </form>
-        </div>
+        </section>
       )}
     </>
   );
