@@ -8,7 +8,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Loading from "./Loading";
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, setProfilePhoto } = useAuth();
   console.log(user);
   const [userProfile, setUserProfile] = useState({});
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -60,6 +60,8 @@ const ProfilePage = () => {
         setUserProfile((value) => {
           return { ...value, photoURL: newProfileImageURL };
         });
+
+        setProfilePhoto(newProfileImageURL);
       }
 
       const docRef = doc(db, "users", user.uid);
@@ -79,12 +81,13 @@ const ProfilePage = () => {
 
   const changeMade =
     userProfile.displayName !== user.displayName ||
-    userProfile.photoURL !== user.photoURL ||
+    uploadedImage !== null ||
     userProfile.email !== user.email;
 
   console.log({ changeMade });
 
   console.log({ userProfile });
+  console.log({ uploadedImage });
   return (
     <>
       {isLoading ? (
@@ -148,12 +151,15 @@ const ProfilePage = () => {
               />
             </div>
 
-            <input
-              type="file"
-              accept="image/*"
-              className="mb-3"
-              onChange={handleProfileImageChange}
-            />
+            <div className="flex flex-col gap-2 mb-3">
+              <label>Upload Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="mb-3"
+                onChange={handleProfileImageChange}
+              />
+            </div>
 
             {changeMade && (
               <button

@@ -1,16 +1,19 @@
 import { useAuth } from "@/context/UserContext";
 import Image from "next/image";
+import Link from "next/link";
 
-const Quote = ({ data }) => {
+const Quote = ({ data, handleDelete }) => {
   const { user } = useAuth();
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const options = { day: "numeric", month: "short", year: "numeric" };
 
     return date.toLocaleDateString(undefined, options);
   };
+
   console.log({ data });
-  console.log({user});
+  console.log({ user });
   return (
     <div className="flex flex-col gap-2 mb-5 p-3 rounded-lg border border-gray-300 shadow-lg">
       <div className="flex justify-between">
@@ -36,7 +39,6 @@ const Quote = ({ data }) => {
         <p className="flex justify-end">-{data.author.stringValue}</p>
       </div>
 
-
       <div className="flex justify-between">
         <div className="w-[20px] h-[20px]">
           <svg
@@ -56,7 +58,9 @@ const Quote = ({ data }) => {
           <div className="flex gap-4">
             <button
               className="text-bold text-[#ED6368] flex items-center gap-2"
-              onClick={() => {}}
+              onClick={() => {
+                handleDelete(data.id);
+              }}
             >
               <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -67,9 +71,18 @@ const Quote = ({ data }) => {
               Delete
             </button>
 
-            <button
+            <Link
               className="text-bold flex items-center gap-2"
-              onClick={() => {}}
+              href={{
+                pathname: "/create-quote",
+                query: {
+                  doc: JSON.stringify({
+                    author: data.author.stringValue,
+                    quote: data.quote.stringValue,
+                    id: data.id,
+                  }),
+                },
+              }}
             >
               <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -78,7 +91,7 @@ const Quote = ({ data }) => {
                 />
               </svg>
               Edit
-            </button>
+            </Link>
           </div>
         )}
       </div>

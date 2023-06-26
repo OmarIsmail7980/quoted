@@ -8,13 +8,14 @@ import {
   getDoc,
   query,
   orderBy,
+  deleteDoc,
 } from "firebase/firestore";
 import Quote from "@/components/Quote";
 import Loading from "@/components/Loading";
-import {useAuth} from "../context/UserContext";
+import { useAuth } from "../context/UserContext";
 
 export default function Home() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [quotes, setQuotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +58,27 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    setQuotes((currQuotes) => {
+      const newQuotes = [];
+      for (let doc of currQuotes) {
+        if (doc.id !== id) {
+          newQuotes.push(doc);
+        }
+      }
+      return newQuotes;
+    });
+
+    try {
+      const docRef = doc(db, "quotes", id);
+      await deleteDoc(docRef);
+      alert("successfully deleted the quote!");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+
   console.log({ quotes });
   console.log({ user });
   return (
@@ -70,7 +92,7 @@ export default function Home() {
       ) : (
         <>
           {quotes.map((document) => {
-            return <Quote data={document} />;
+            return <Quote data={document} handleDelete={handleDelete}/>;
           })}
         </>
       )}

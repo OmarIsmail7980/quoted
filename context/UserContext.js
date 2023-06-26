@@ -92,8 +92,14 @@ export const UserContextProvider = ({ children }) => {
     signOut(auth);
   };
 
+  const setProfilePhoto = (URL) => {
+    setUser((currValues) => ({ ...currValues, photoURL: URL }));
+  };
+
   return (
-    <UserContext.Provider value={{ user, googleSignIn, googleSignOut }}>
+    <UserContext.Provider
+      value={{ user, googleSignIn, googleSignOut, setProfilePhoto }}
+    >
       {children}
     </UserContext.Provider>
   );

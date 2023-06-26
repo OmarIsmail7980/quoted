@@ -1,15 +1,28 @@
 "use client";
 
 import Loading from "@/components/Loading";
-import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { collection, addDoc, updateDoc,doc } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useAuth } from "@/context/UserContext";
+import { useSearchParams,useRouter } from "next/navigation";
 
 const page = () => {
   const { user } = useAuth();
   const [form, setForm] = useState({ name: "", quote: "" });
   const [isPosting, setIsPosting] = useState(false);
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const document = JSON.parse(searchParams.get("doc"));
+  console.log(searchParams.get("doc"));
+  console.log(document);
+
+  useEffect(() => {
+    if (document) {
+      setForm({ name: document.author, quote: document.quote });
+    }
+  }, []);
 
   const handleChange = (event) => {
     setForm((currForm) => {
@@ -21,16 +34,23 @@ const page = () => {
     event.preventDefault();
     setIsPosting(true);
     try {
-      const collectionRef = collection(db, "quotes");
-      await addDoc(collectionRef, {
-        uid: user.uid,
-        quote: form.quote,
-        author: form.name,
-        photo: user.photoURL,
-        name: user.displayName,
-        createdAt: new Date(),
-      });
-      console.log("quote has been saved!");
+      if (document) {
+        const docRef = doc(db, "quotes", document.id);
+        await updateDoc(docRef,{author:form.name,quote:form.quote});
+        alert("document is updated!");
+      } else {
+        const collectionRef = collection(db, "quotes");
+        await addDoc(collectionRef, {
+          uid: user.uid,
+          quote: form.quote,
+          author: form.name,
+          photo: user.photoURL,
+          name: user.displayName,
+          createdAt: new Date(),
+        });
+        console.log("quote has been saved!");
+      }
+      router.push("/",undefined);
     } catch (error) {
       alert(error);
     } finally {
@@ -42,7 +62,7 @@ const page = () => {
     <section className="px-4">
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">
-          Create a Quote
+          {document ? <>Update</> : <>Create</>} a Quote
         </h1>
         <p className="mt-2 text-[#66e75] text-[16px] max-w-[500px]">
           Share your quote with the public
@@ -73,8 +93,6 @@ const page = () => {
           <textarea
             required={true}
             name="quote"
-            minLength="50"
-            maxLength="900"
             cols="0"
             rows="7"
             value={form.quote}
