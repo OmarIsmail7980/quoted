@@ -6,6 +6,7 @@ import Image from "next/image";
 import { getDoc, setDoc, doc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Loading from "./Loading";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
   const { user, setProfilePhoto } = useAuth();
@@ -14,6 +15,13 @@ const ProfilePage = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === null) {
+      router.push("/", undefined);
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchUser();
@@ -79,10 +87,11 @@ const ProfilePage = () => {
     }
   };
 
-  const changeMade =
-    userProfile.displayName !== user.displayName ||
-    uploadedImage !== null ||
-    userProfile.email !== user.email;
+  const changeMade = user
+    ? userProfile.displayName !== user.displayName ||
+      uploadedImage !== null ||
+      userProfile.email !== user.email
+    : false;
 
   console.log({ changeMade });
 
@@ -104,7 +113,7 @@ const ProfilePage = () => {
                   alt="user"
                   width={37}
                   height={37}
-                  className="object-contain w-full h-full"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>

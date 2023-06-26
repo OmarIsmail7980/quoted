@@ -2,10 +2,10 @@
 
 import Loading from "@/components/Loading";
 import { useState, useEffect } from "react";
-import { collection, addDoc, updateDoc,doc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useAuth } from "@/context/UserContext";
-import { useSearchParams,useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const page = () => {
   const { user } = useAuth();
@@ -17,6 +17,13 @@ const page = () => {
   const document = JSON.parse(searchParams.get("doc"));
   console.log(searchParams.get("doc"));
   console.log(document);
+
+  console.log({ user });
+  useEffect(() => {
+    if (user === null) {
+      router.push("/", undefined);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (document) {
@@ -36,7 +43,7 @@ const page = () => {
     try {
       if (document) {
         const docRef = doc(db, "quotes", document.id);
-        await updateDoc(docRef,{author:form.name,quote:form.quote});
+        await updateDoc(docRef, { author: form.name, quote: form.quote });
         alert("document is updated!");
       } else {
         const collectionRef = collection(db, "quotes");
@@ -50,7 +57,7 @@ const page = () => {
         });
         console.log("quote has been saved!");
       }
-      router.push("/",undefined);
+      router.push("/", undefined);
     } catch (error) {
       alert(error);
     } finally {

@@ -4,10 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useAuth } from "../context/UserContext";
+import SigninBox from "./SigninBox";
 
 const Navbar = () => {
   const { googleSignIn, googleSignOut, user } = useAuth();
   const [toggleDropDown, setToggleDropDown] = useState(false);
+  // const [signinToggle, setSigninToggle] = useState(false);
+
   console.log({user})
   const handleSignIn = async () => {
     try {
@@ -88,14 +91,64 @@ const Navbar = () => {
           <>
             <button
               type="button"
-              className="w-full black_btn"
+              className="w-full black_btn px-5"
               onClick={handleSignIn}
+              // onClick={setSigninToggle(true)}
             >
               Sign In
             </button>
           </>
         )}
       </div>
+
+      {/* Desktop navigation */}
+      <div className="sm:flex hidden">
+        {user?.displayName ? (
+          <div className="flex gap-3 md:gap-5">
+            <Link href="/create-quote" className="black_btn">
+              Create Post
+            </Link>
+
+            <button
+              type="button"
+              className="outline_btn"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </button>
+
+            <Link href="/profile">
+              <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                <Image
+                  src={`${user.photoURL}`}
+                  alt="user"
+                  width={37}
+                  height={37}
+                  className="object-cover w-full h-full"
+                  onClick={() => {
+                    setToggleDropDown((value) => !value);
+                  }}
+                />
+              </div>
+            </Link>
+          </div>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="w-full black_btn"
+              onClick={handleSignIn}
+              // onClick={setSigninToggle(true)}
+            >
+              Sign In
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* {signinToggle && (
+        <SigninBox googleSignIn={handleSignIn} toggle={setSigninToggle} />
+      )} */}
     </nav>
   );
 };

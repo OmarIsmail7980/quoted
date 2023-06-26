@@ -83,7 +83,7 @@ export default function Home() {
   console.log({ user });
   return (
     <section className="px-4 flex flex-col mb-10">
-      <h1 className="text-center text-[28px] font-medium mb-5">
+      <h1 className="text-center text-[28px] font-medium mb-5 lg:mb-10 md:mb-8">
         Welcome to Quoted, a platform where you can share and discover inspiring
         quotes!
       </h1>

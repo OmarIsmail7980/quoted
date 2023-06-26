@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
 
-        <main className="app">
+        <main className="lg:mx-20 md:mx-16">
           <UserContextProvider>
             <Navbar />
             {children}
