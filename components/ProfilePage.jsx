@@ -151,7 +151,7 @@ const ProfilePage = () => {
             {changeMade && (
               <button
                 className="text-white bg-black font-medium 
-            rounded-md text-sm w-full px-5 py-2.5 
+            rounded-md text-sm w-full  px-5 py-2.5 
             text-center mt-5"
                 type="submit"
               >
