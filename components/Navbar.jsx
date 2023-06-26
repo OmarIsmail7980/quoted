@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
@@ -10,8 +9,6 @@ const Navbar = () => {
   const { googleSignOut, user } = useAuth();
   const [toggleDropDown, setToggleDropDown] = useState(false);
   const [signinToggle, setSigninToggle] = useState(false);
-
-  console.log({ user });
 
   const handleSignOut = async () => {
     try {
@@ -28,7 +25,7 @@ const Navbar = () => {
         <h1 className="font-bold text-[28px]">Quoted</h1>
       </Link>
 
-      {/* mobile navigation */}
+      {/* Mobile navigation */}
       <div className="sm:hidden flex relative">
         {user?.displayName ? (
           <div className="flex">
@@ -143,3 +140,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

@@ -7,7 +7,7 @@ import { db } from "@/firebase/firebaseConfig";
 import { useAuth } from "@/context/UserContext";
 import { useSearchParams, useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { user } = useAuth();
   const [form, setForm] = useState({ name: "", quote: "" });
   const [isPosting, setIsPosting] = useState(false);
@@ -15,10 +15,7 @@ const page = () => {
 
   const searchParams = useSearchParams();
   const document = JSON.parse(searchParams.get("doc"));
-  console.log(searchParams.get("doc"));
-  console.log(document);
 
-  console.log({ user });
   useEffect(() => {
     if (user === null) {
       router.push("/", undefined);
@@ -40,11 +37,12 @@ const page = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsPosting(true);
+
     try {
       if (document) {
         const docRef = doc(db, "quotes", document.id);
         await updateDoc(docRef, { author: form.name, quote: form.quote });
-        alert("document is updated!");
+        alert("Document is updated!");
       } else {
         const collectionRef = collection(db, "quotes");
         await addDoc(collectionRef, {
@@ -55,7 +53,7 @@ const page = () => {
           name: user.displayName,
           createdAt: new Date(),
         });
-        console.log("quote has been saved!");
+        alert("Document is created!");
       }
       router.push("/", undefined);
     } catch (error) {
@@ -87,12 +85,8 @@ const page = () => {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="bg-gray-50 border 
-        border-gray-300 text-gray-900 
-        text-sm rounded-lg focus:ring-primary 
-        focus:border-primary outline-none block 
-        w-full p-3"
-          ></input>
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary outline-none block w-full p-3"
+          />
 
           <label className="block text-normal font-medium text-gray-900">
             Quote
@@ -104,18 +98,12 @@ const page = () => {
             rows="7"
             value={form.quote}
             onChange={handleChange}
-            className="bg-gray-50 border 
-        border-gray-300 text-gray-900 
-        text-sm rounded-lg focus:ring-primary 
-        focus:border-primary outline-none block 
-        w-full p-3"
-          ></textarea>
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary outline-none block w-full p-3"
+          />
 
           <button
             type="submit"
-            className="text-white bg-black font-medium 
-            rounded-md text-sm w-full sm:w-auto px-5 py-2.5 
-            text-center mt-5"
+            className="text-white bg-black font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5"
           >
             {isPosting ? <Loading /> : <>Share</>}
           </button>
@@ -125,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

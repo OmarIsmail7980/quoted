@@ -1,5 +1,5 @@
 "use client";
-const { createContext, useState, useEffect, useContext } = require("react");
+import { createContext, useState, useEffect, useContext } from "react";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -27,18 +27,11 @@ export const UserContextProvider = ({ children }) => {
       }
 
       if (currentUser && userSnap.exists()) {
-        console.log(userSnap._document.data.value.mapValue.fields.photoURL);
-        console.log(userSnap._document.data.value.mapValue.fields);
         setUser({
           ...currentUser,
-
-          photoURL:
-            userSnap._document.data.value.mapValue.fields.photoURL.stringValue,
-          displayName:
-            userSnap._document.data.value.mapValue.fields.displayName
-              .stringValue,
-          email:
-            userSnap._document.data.value.mapValue.fields.email.stringValue,
+          photoURL: userSnap.data().photoURL,
+          displayName: userSnap.data().displayName,
+          email: userSnap.data().email,
         });
       } else {
         setUser(currentUser);
@@ -64,7 +57,6 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const createUserDocument = async (user) => {
-    console.log("hello buddy");
     console.log(user.uid);
 
     const docRef = doc(db, "users", user.uid);

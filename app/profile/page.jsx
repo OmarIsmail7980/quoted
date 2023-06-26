@@ -1,21 +1,18 @@
 "use client"
+import {useEffect} from "react";
 import ProfilePage from "@/components/ProfilePage";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/UserContext";
 
 const Profile = () => {
-  // const router = useRouter();
   const { user } = useAuth();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.replace("/");
-  //   }
-  // }, [user, router]);
-
-  // if (!user) {
-  //   return null; // You can display a loading spinner or a message here
-  // }
+  useEffect(() => {
+    if (user === null) {
+      router.push("/", undefined);
+    }
+  }, [user]);
 
   return (
     <section>

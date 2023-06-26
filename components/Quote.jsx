@@ -1,19 +1,11 @@
 import { useAuth } from "@/context/UserContext";
 import Image from "next/image";
 import Link from "next/link";
+import { formatDate } from "@/util/formatDate";
 
 const Quote = ({ data, handleDelete }) => {
   const { user } = useAuth();
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const options = { day: "numeric", month: "short", year: "numeric" };
-
-    return date.toLocaleDateString(undefined, options);
-  };
-
-  console.log({ data });
-  console.log({ user });
   return (
     <div className="flex flex-col gap-2 mb-5 p-3 rounded-lg border border-gray-300 shadow-lg">
       <div className="flex justify-between">

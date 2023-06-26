@@ -1,19 +1,18 @@
 import { useAuth } from "@/context/UserContext";
 import GoogleButton from "react-google-button";
 
-const SigninBox = ({toggle }) => {
+const SigninBox = ({ toggle }) => {
+  const { googleSignIn } = useAuth();
 
-    const { googleSignIn } = useAuth();
-
-    const signIn = async () => {
-      try {
-        await googleSignIn();
-      } catch (error) {
-        console.log(error);
-      }finally{
-        toggle(false);
-      }
-    };
+  const signIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      toggle(false);
+    }
+  };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center  mx-2">
       <div className="fixed inset-0 opacity-75"></div>
@@ -33,11 +32,6 @@ const SigninBox = ({toggle }) => {
       </div>
     </div>
   );
-};
-
-SigninBox.defaultProps = {
-  handleSignIn: () => {},
-  toggle: () => {},
 };
 
 export default SigninBox;

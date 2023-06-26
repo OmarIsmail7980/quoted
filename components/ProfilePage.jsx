@@ -6,22 +6,13 @@ import Image from "next/image";
 import { getDoc, setDoc, doc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Loading from "./Loading";
-import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
   const { user, setProfilePhoto } = useAuth();
-  console.log(user);
   const [userProfile, setUserProfile] = useState({});
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user === null) {
-      router.push("/", undefined);
-    }
-  }, [user]);
 
   useEffect(() => {
     fetchUser();
@@ -30,7 +21,6 @@ const ProfilePage = () => {
   const fetchUser = async () => {
     try {
       if (user) {
-        console.log({ user });
         const userId = user.uid;
         const userRef = doc(collection(db, "users"), userId);
         const userDoc = await getDoc(userRef);
@@ -87,16 +77,12 @@ const ProfilePage = () => {
     }
   };
 
-  const changeMade = user
-    ? userProfile.displayName !== user.displayName ||
+  const changeMade =
+    user &&
+    (userProfile.displayName !== user.displayName ||
       uploadedImage !== null ||
-      userProfile.email !== user.email
-    : false;
+      userProfile.email !== user.email);
 
-  console.log({ changeMade });
-
-  console.log({ userProfile });
-  console.log({ uploadedImage });
   return (
     <>
       {isLoading ? (
@@ -126,11 +112,7 @@ const ProfilePage = () => {
                 type="text"
                 placeholder="Full name"
                 value={userProfile.displayName || ""}
-                className="bg-gray-50 border 
-        border-gray-300 text-gray-900 
-        text-sm rounded-lg focus:ring-primary 
-        focus:border-primary outline-none block 
-        w-full p-3"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary outline-none block w-full p-3"
                 onChange={(e) =>
                   setUserProfile((profile) => ({
                     ...profile,
@@ -145,11 +127,7 @@ const ProfilePage = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className="bg-gray-50 border 
-        border-gray-300 text-gray-900 
-        text-sm rounded-lg focus:ring-primary 
-        focus:border-primary outline-none block 
-        w-full p-3"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary outline-none block w-full p-3"
                 value={userProfile.email || ""}
                 onChange={(e) =>
                   setUserProfile((profile) => ({
@@ -173,7 +151,7 @@ const ProfilePage = () => {
             {changeMade && (
               <button
                 className="text-white bg-black font-medium 
-            rounded-md text-sm w-full sm:w-auto px-5 py-2.5 
+            rounded-md text-sm w-full px-5 py-2.5 
             text-center mt-5"
                 type="submit"
               >
