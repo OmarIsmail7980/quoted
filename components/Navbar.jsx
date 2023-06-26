@@ -7,18 +7,11 @@ import { useAuth } from "../context/UserContext";
 import SigninBox from "./SigninBox";
 
 const Navbar = () => {
-  const { googleSignIn, googleSignOut, user } = useAuth();
+  const { googleSignOut, user } = useAuth();
   const [toggleDropDown, setToggleDropDown] = useState(false);
-  // const [signinToggle, setSigninToggle] = useState(false);
+  const [signinToggle, setSigninToggle] = useState(false);
 
-  console.log({user})
-  const handleSignIn = async () => {
-    try {
-      await googleSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  console.log({ user });
 
   const handleSignOut = async () => {
     try {
@@ -92,8 +85,7 @@ const Navbar = () => {
             <button
               type="button"
               className="w-full black_btn px-5"
-              onClick={handleSignIn}
-              // onClick={setSigninToggle(true)}
+              onClick={() => setSigninToggle(true)}
             >
               Sign In
             </button>
@@ -137,8 +129,7 @@ const Navbar = () => {
             <button
               type="button"
               className="w-full black_btn"
-              onClick={handleSignIn}
-              // onClick={setSigninToggle(true)}
+              onClick={() => setSigninToggle(true)}
             >
               Sign In
             </button>
@@ -146,9 +137,7 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* {signinToggle && (
-        <SigninBox googleSignIn={handleSignIn} toggle={setSigninToggle} />
-      )} */}
+      {signinToggle && <SigninBox toggle={setSigninToggle} />}
     </nav>
   );
 };
