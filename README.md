@@ -41,18 +41,22 @@ pnpm dev
 ### Screenshot
 
 Home page
+
 ![](./public/assets/demo1.png)
 
 
 Profile page
+
 ![](./public/assets/demo2.png)
 
 
 Create quote page
+
 ![](./public/assets/demo3.png)
 
 
 Update quote page
+
 ![](./public/assets/demo4.png)
 
 
