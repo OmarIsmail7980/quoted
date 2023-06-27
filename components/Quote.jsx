@@ -31,23 +31,9 @@ const Quote = ({ data, handleDelete }) => {
         <p className="flex justify-end">-{data.author.stringValue}</p>
       </div>
 
-      <div className="flex justify-between">
-        <div className="w-[20px] h-[20px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            id="thumbs-up"
-            onClick={() => {}}
-          >
-            <path
-              fill="#7791A0"
-              d="M21.3,10.08A3,3,0,0,0,19,9H14.44L15,7.57A4.13,4.13,0,0,0,11.11,2a1,1,0,0,0-.91.59L7.35,9H5a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17.73a3,3,0,0,0,2.95-2.46l1.27-7A3,3,0,0,0,21.3,10.08ZM7,20H5a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H7Zm13-7.82-1.27,7a1,1,0,0,1-1,.82H9V10.21l2.72-6.12A2.11,2.11,0,0,1,13.1,6.87L12.57,8.3A2,2,0,0,0,14.44,11H19a1,1,0,0,1,.77.36A1,1,0,0,1,20,12.18Z"
-            ></path>
-          </svg>
-        </div>
-
+      <div>
         {user && user.uid === data.uid.stringValue && (
-          <div className="flex gap-4">
+          <div className="flex justify-end gap-4 mt-1">
             <button
               className="text-bold text-[#ED6368] flex items-center gap-2"
               onClick={() => {

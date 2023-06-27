@@ -69,7 +69,7 @@ const ProfilePage = () => {
         photoURL: newProfileImageURL,
       });
 
-      alert("User document created successfully");
+      alert("Profile was succesfully updated");
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -148,16 +148,16 @@ const ProfilePage = () => {
               />
             </div>
 
-            {changeMade && (
               <button
+                style={!changeMade ? { opacity: "0.6" } : {}}
                 className="text-white bg-black font-medium 
             rounded-md text-sm w-full  px-5 py-2.5 
             text-center mt-5"
                 type="submit"
+                disabled={!changeMade}
               >
                 {isSaving ? <Loading /> : <>Save</>}
               </button>
-            )}
           </form>
         </section>
       )}

@@ -28,11 +28,11 @@ const Page = () => {
       setForm({ name: document.author, quote: document.quote });
     }
   }, []);
-  
-  if(document){
-     disable = document.author === form.name && document.quote === form.quote;
+
+  if (document) {
+    disable = document.author === form.name && document.quote === form.quote;
   }
- 
+
   const handleChange = (event) => {
     setForm((currForm) => {
       return { ...currForm, [event.target.name]: event.target.value };
@@ -47,7 +47,7 @@ const Page = () => {
       if (document) {
         const docRef = doc(db, "quotes", document.id);
         await updateDoc(docRef, { author: form.name, quote: form.quote });
-        alert("Document is updated!");
+        alert("Quote is updated!");
       } else {
         const collectionRef = collection(db, "quotes");
         await addDoc(collectionRef, {
@@ -58,7 +58,7 @@ const Page = () => {
           name: user.displayName,
           createdAt: new Date(),
         });
-        alert("Document is created!");
+        alert("Quote is created!");
       }
       router.push("/", undefined);
     } catch (error) {
@@ -108,6 +108,7 @@ const Page = () => {
 
           <button
             type="submit"
+            style={disable ? { opacity: "0.6" } : {}}
             className="text-white bg-black font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5"
             disabled={disable}
           >
