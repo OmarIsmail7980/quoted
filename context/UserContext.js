@@ -47,7 +47,6 @@ export const UserContextProvider = ({ children }) => {
     try {
       await signInWithPopup(auth, provider);
       const currentUser = auth.currentUser;
-      console.log({ currentUser });
       if (currentUser) {
         await createUserDocument(currentUser);
       }
@@ -57,8 +56,6 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const createUserDocument = async (user) => {
-    console.log(user.uid);
-
     const docRef = doc(db, "users", user.uid);
 
     try {

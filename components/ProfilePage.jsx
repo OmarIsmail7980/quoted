@@ -68,7 +68,7 @@ const ProfilePage = () => {
         email: userProfile.email,
         photoURL: newProfileImageURL,
       });
-
+      setUploadedImage(null);
       alert("Profile was succesfully updated");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -76,12 +76,6 @@ const ProfilePage = () => {
       setIsSaving(false);
     }
   };
-
-  const changeMade =
-    user &&
-    (userProfile.displayName !== user.displayName ||
-      uploadedImage !== null ||
-      userProfile.email !== user.email);
 
   return (
     <>
@@ -147,14 +141,12 @@ const ProfilePage = () => {
                 onChange={handleProfileImageChange}
               />
             </div>
-
+            
               <button
-                style={!changeMade ? { opacity: "0.6" } : {}}
                 className="text-white bg-black font-medium 
             rounded-md text-sm w-full  px-5 py-2.5 
             text-center mt-5"
                 type="submit"
-                disabled={!changeMade}
               >
                 {isSaving ? <Loading /> : <>Save</>}
               </button>
