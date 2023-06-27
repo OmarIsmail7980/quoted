@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quoted
 
 ## Getting Started
 
@@ -12,23 +12,69 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Table of contents
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Overview
 
-## Learn More
+### The challenge
+- Quoted is a web application that allows to create an account and use the account to perform this tasks:
+    - Add quotes
+    - Edit/ Delete quotes that they created
+    - Edit their profile basic information and upload profile picture
+    - Display all the quotes created by every user on the homepage 
+- A quote should have the following details:
+    - The Quote
+    - Name of the Author of the quote
+    - when the quote was posted
+    - profile picture and name of the user who posted the quote
+    - an Edit and a Delete button avaliable only post owners
+- Users will Sign in using "Google" and the default profile picture will be their google account picture
 
-To learn more about Next.js, take a look at the following resources:
+### Screenshot
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Home page
+![](./public/assets/demo1.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+Profile page
+![](./public/assets/demo2.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Create quote page
+![](./public/assets/demo3.png)
+
+
+Update quote page
+![](./public/assets/demo4.png)
+
+
+
+### Links
+
+- Live Site URL: [quoted-nnzx.vercel.app](https://quoted-nnzx.vercel.app/)
+
+## My process
+
+### Built with
+
+- [Next.js](https://nextjs.org/) - React framework
+- Firebase google Authentication
+- firestore
+- tailwind css
+- Mobile-first workflow
+- Flexbox
+
+
+### What I learned
+
+This project expanded my knowledge in various areas. I gained valuable insights into effectively integrating Firestore, Storage, and Firebase Authentication in a single project, as well as successfully deploying it to Vercel. Moreover, I appreciated delving into Next.js, which offers a unique approach bit distinct from React.js. Noteworthy aspects of Next.js include the flexibility to choose server-side or client-side rendering for components, the built-in inclusion of Tailwind CSS without the need for manual configuration, and the convenient routing capability without the requirement of installing an additional package. This project not only broadened my skill set but also reinforced the power and advantages Next.js brings to future endeavors.
+
+
