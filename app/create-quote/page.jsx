@@ -15,6 +15,7 @@ const Page = () => {
 
   const searchParams = useSearchParams();
   const document = JSON.parse(searchParams.get("doc"));
+  let disable = false;
 
   useEffect(() => {
     if (user === null) {
@@ -27,7 +28,11 @@ const Page = () => {
       setForm({ name: document.author, quote: document.quote });
     }
   }, []);
-
+  
+  if(document){
+     disable = document.author === form.name && document.quote === form.quote;
+  }
+ 
   const handleChange = (event) => {
     setForm((currForm) => {
       return { ...currForm, [event.target.name]: event.target.value };
@@ -104,6 +109,7 @@ const Page = () => {
           <button
             type="submit"
             className="text-white bg-black font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5"
+            disabled={disable}
           >
             {isPosting ? <Loading /> : <>Share</>}
           </button>
