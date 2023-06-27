@@ -26,7 +26,7 @@ export default function Home() {
           query(quotesRef, orderBy("createdAt", "desc"))
         );
 
-        querySnapshot.forEach(async (document) => {
+        for (const document of querySnapshot.docs) {
           //query the most recent info of the user
           const currentUserId =
             document._document.data.value.mapValue.fields.uid.stringValue;
@@ -45,7 +45,7 @@ export default function Home() {
                 .stringValue,
             },
           ]);
-        });
+        }
       } catch (error) {
         alert(error);
       } finally {
@@ -90,4 +90,3 @@ export default function Home() {
     </section>
   );
 }
-
