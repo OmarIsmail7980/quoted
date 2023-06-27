@@ -20,6 +20,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //order in descinding order
         const quotesRef = collection(db, "quotes");
         const querySnapshot = await getDocs(
           query(quotesRef, orderBy("createdAt", "desc"))
@@ -78,7 +79,11 @@ export default function Home() {
       ) : (
         <>
           {quotes.map((quote) => (
-            <Quote key={quote.id} data={quote} handleDelete={handleDelete} />
+            <Quote
+              key={quote.id + data.quote.stringValue}
+              data={quote}
+              handleDelete={handleDelete}
+            />
           ))}
         </>
       )}
