@@ -80,7 +80,7 @@ export default function Home() {
         <>
           {quotes.map((quote) => (
             <Quote
-              key={quote.id + data.quote.stringValue}
+              key={quote.id + quote.quote.stringValue}
               data={quote}
               handleDelete={handleDelete}
             />
